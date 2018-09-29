@@ -6,10 +6,12 @@ import time
 import re
 import json
 
+assert sys.version_info.major == 3
+assert sys.version_info.minor >= 6
+
 DEFAULT_EXPIRATION = 5
 DEFAULT_GASLIMIT = 100000  # (0.001 iost)
 DEFAULT_NODEIP = '127.0.0.1'
-IOST_REPO_PATH = '/Users/zhangzhuo/go-workspace/src/github.com/iost-official/go-iost'
 
 Account = collections.namedtuple('Account', ['nickname', 'account_name'])
 
@@ -25,14 +27,14 @@ def check_float_equal(a, b):
 def call(cmd):
     log('exec ' + cmd)
     if sys.platform == 'darwin':
-    	# It is a workaround for a bug(feature?) of macOS. 
+        # It is a workaround for a bug(feature?) of macOS.
+        IOST_REPO_PATH = '/Users/zhangzhuo/go-workspace/src/github.com/iost-official/go-iost'
         DYLD_LIBRARY_PATH = os.environ.get(
             'DYLD_LIBRARY_PATH') + f':{IOST_REPO_PATH}/vm/v8vm/v8/libv8/_darwin_amd64/'
         cmd = 'DYLD_LIBRARY_PATH=' + DYLD_LIBRARY_PATH + ' ' + cmd
-    ret = subprocess.run(['bash', '-c', cmd],
-                         capture_output=True, encoding='utf8')
-    if ret.returncode != 0:
-        log('exec error ' + ret.stderr)
+    ret = subprocess.run(['bash', '-c', cmd], encoding='utf8',
+                         stdout=subprocess.PIPE, check=True)
+    assert not ret.stdout is None
     return ret.stdout
 
 
@@ -51,7 +53,7 @@ def get_balance(account_name):
 
 def check_tx(txid):
     log(f'checking transaction {txid}')
-    cmd = f'curl -X GET http://{DEFAULT_NODEIP}:30001/getTxReceiptByTxHash/{txid}'
+    cmd = f'curl -s -X GET http://{DEFAULT_NODEIP}:30001/getTxReceiptByTxHash/{txid}'
     stdout = call(cmd)
     print(f'output {stdout}')
     result = json.loads(stdout)
@@ -60,7 +62,7 @@ def check_tx(txid):
 
 
 def fetch_contract_state(cid, key):
-    cmd = f'curl -X GET http://{DEFAULT_NODEIP}:30001/getState/{cid}-{key}'
+    cmd = f'curl -s -X GET http://{DEFAULT_NODEIP}:30001/getState/{cid}-{key}'
     stdout = call(cmd)
     json_result = eval(json.loads(stdout)['value'][1:])
     return json_result
@@ -160,6 +162,7 @@ def main():
         log(
             f'calculated_balance {calculated_balance} actual_balance {final_balances[i]}')
         check_float_equal(calculated_balance, final_balances[i])
+    log('Congratulations! You have just run a smart contract on IOST!')
 
 
 main()
