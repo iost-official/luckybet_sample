@@ -13,13 +13,13 @@ assert sys.version_info.major == 3
 assert sys.version_info.minor >= 6
 
 DEFAULT_EXPIRATION = 10
-DEFAULT_GASLIMIT = 200000
+DEFAULT_GASLIMIT = 2000000
 DEFAULT_GASRATIO = 1
 DEFAULT_NODEIP = '127.0.0.1'
 TESTID='admin'
 initial_coin_of_bet_user = 5
 
-command_prefix = f'iwallet --expiration {DEFAULT_EXPIRATION} --gaslimit {DEFAULT_GASLIMIT} --gasratio {DEFAULT_GASRATIO} '
+command_prefix = f'iwallet --expiration {DEFAULT_EXPIRATION} --gaslimit {DEFAULT_GASLIMIT} --gasratio {DEFAULT_GASRATIO} --amountLimit "iost:3000000|ram:10000" '
 
 
 def log(s):
