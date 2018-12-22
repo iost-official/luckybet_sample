@@ -69,7 +69,7 @@ def call_contract(caller_name, cid, function_name, function_args, verbose=False)
 
 
 def publish_contract(js_file, js_abi_file, account_name):
-    cmd = f'{command_prefix} --account {account_name} compile {js_file} {js_abi_file}'
+    cmd = f'{command_prefix} --account {account_name} publish {js_file} {js_abi_file}'
     stdout = call(cmd)
     contract_id = re.findall(r'The contract id is (\S+)$', stdout)[0]
     return contract_id
