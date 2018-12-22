@@ -19,7 +19,7 @@ DEFAULT_NODEIP = '127.0.0.1'
 TESTID='admin'
 initial_coin_of_bet_user = 5
 
-command_prefix = f'iwallet --expiration {DEFAULT_EXPIRATION} --gaslimit {DEFAULT_GASLIMIT} --gasratio {DEFAULT_GASRATIO} --amountLimit "iost:3000000|ram:10000" '
+command_prefix = f'iwallet --expiration {DEFAULT_EXPIRATION} --gas_limit {DEFAULT_GASLIMIT} --gas_ratio {DEFAULT_GASRATIO} --amount_limit "iost:3000000|ram:10000" '
 
 
 def log(s):
