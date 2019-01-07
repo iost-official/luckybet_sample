@@ -79,7 +79,7 @@ def init_account():
     private_key = '2yquS3ySrGWPEKywCPzX4RTJugqRh7kJSo5aehsLYPEWkUxBWA39oMrZ7ZxuM4fgyXYs2cPwh5n8aNNpH5x2VyK1'
     cmd = f'iwallet account --import {TESTID} {private_key}'
     call(cmd)
-    # need some ram and gas for creating 100 users later
+    # need some ram and gas for creating users later
     # buy 5000000 bytes
     call_contract(TESTID, 'ram.iost', 'buy', [TESTID, TESTID, 5000000])
     # pledge 3000000 IOSTs for gas
@@ -95,7 +95,7 @@ def publish():
 
 
 def get_bet_users():
-    bet_user_num = 100 # must be same as `maxUserNumber` in lucky_bet.js
+    bet_user_num = 20 # must be same as `maxUserNumber` in lucky_bet.js
     bet_users = [
         f'user_{random.randint(0, 1000000)}' for idx in range(bet_user_num)]
 
