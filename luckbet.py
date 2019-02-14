@@ -42,7 +42,7 @@ def call(cmd, verbose=False):
 
 
 def create_account(creator, account_name, initial_ram, initial_gas_pledge, initial_balance, verbose=False):
-    call(f'{command_prefix} --account {creator} account --create {account_name} '
+    call(f'{command_prefix} --account {creator} account create {account_name} '
          + f'--initial_ram {initial_ram} --initial_gas_pledge {initial_gas_pledge} --initial_balance {initial_balance}', verbose)
 
 
@@ -71,13 +71,13 @@ def call_contract(caller_name, cid, function_name, function_args, verbose=False)
 def publish_contract(js_file, js_abi_file, account_name):
     cmd = f'{command_prefix} --account {account_name} publish {js_file} {js_abi_file}'
     stdout = call(cmd)
-    contract_id = re.findall(r'The contract id is (\S+)$', stdout)[0]
+    contract_id = re.findall(r'The contract id is: (\S+)', stdout)[0]
     return contract_id
 
 
 def init_account():
     private_key = '2yquS3ySrGWPEKywCPzX4RTJugqRh7kJSo5aehsLYPEWkUxBWA39oMrZ7ZxuM4fgyXYs2cPwh5n8aNNpH5x2VyK1'
-    cmd = f'iwallet account --import {TESTID} {private_key}'
+    cmd = f'iwallet account import {TESTID} {private_key}'
     call(cmd)
     # need some ram and gas for creating users later
     # buy 5000000 bytes
