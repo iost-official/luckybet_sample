@@ -55,7 +55,7 @@ def get_balance(account_name):
 
 def fetch_contract_state(cid, key):
     data = {"id": cid, "key": key}
-    cmd = f"curl -s -X POST --data '{json.dumps(data)}' http://{DEFAULT_NODEIP}:30001/getContractStorage"
+    cmd = f"iwallet table --verbose=false {cid} {key}"
     stdout = call(cmd)
     json_result = eval(json.loads(stdout)['data'])
     return json_result
